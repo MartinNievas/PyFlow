@@ -101,6 +101,8 @@ class NodeBase(INode):
         self._deprecationMessage = "This node is deprecated"
         self._experimental = False
         self._computingTime = None
+        self._data = []
+        self._exportable = False
 
     def setDeprecated(self, message):
         self._deprecated = True
@@ -469,6 +471,21 @@ class NodeBase(INode):
                 if i.IsValuePin() and not o.IsValuePin():
                     continue
                 pinAffects(i, o)
+
+    def storeData(self, data):
+        self._data.append(data)
+
+    def getStoredData(self):
+        return self._data
+
+    def setExportable(self):
+        self._exportable = True
+
+    def setNotExportable(self):
+        self._exportable = False
+
+    def isExportable(self):
+        return self._exportable
 
     def createInputPin(self, pinName, dataType, defaultValue=None, foo=None, structure=StructureType.Single, constraint=None, structConstraint=None, supportedPinDataTypes=[], group=""):
         """Creates input pin
